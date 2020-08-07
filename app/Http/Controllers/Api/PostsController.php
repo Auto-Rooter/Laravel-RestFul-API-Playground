@@ -31,7 +31,7 @@ class PostsController extends Controller
         if($post){
             return $this->apiResponse(new PostResource(Post::find($id)), null, 200);
         }
-        return $this->apiResponse($post, "Post Not Found", 404);
+        return $this->notFoundResponse();
         
     }
 
@@ -69,5 +69,36 @@ class PostsController extends Controller
         }
 
         return $this->apiResponse(null, "Un-known Error", 520);
+    }
+
+    public function update($id, Request $request){
+
+        $validate = Validator::make($request->all(), [
+            'title' => 'required|min:5|max:199',
+            'body' => 'required|min:15|max:1500'
+        ]);
+        
+        if($validate->fails()){
+            return $this->apiResponse(null, $validate->errors(), 422);
+        }
+
+        // Post::find($id)::update($request->all());
+        $post = Post::find($id);
+
+        if(!$post){
+            return $this->notFoundResponse();
+        }
+
+        if($post){
+            $post['title'] = $request->title;
+            $post['body'] = $request->body;
+
+            $post->save();
+
+            return $this->apiResponse($post, null, 201);
+        }
+
+        return $this->apiResponse(null, "Un-known Error", 520);
+
     }
 }

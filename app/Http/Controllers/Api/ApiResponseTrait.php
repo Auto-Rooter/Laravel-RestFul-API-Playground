@@ -28,4 +28,8 @@ Trait ApiResponseTrait {
     public function successCode(){
         return [200, 201, 202];
     }
+
+    public function notFoundResponse(){
+        return $this->apiResponse(null, "Not Found", 404);
+    }
 }
