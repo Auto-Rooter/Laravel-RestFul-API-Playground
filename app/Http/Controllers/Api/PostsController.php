@@ -20,7 +20,7 @@ class PostsController extends Controller
         // $offset = request()->has('offset') ? request()->get('offset') : 0 ;
         // $posts = PostResource::collection(Post::limit(10)->offset($offset)->get());
 
-        // Pagination (2):
+        // Pagination (2): Laravel Pagination
         $posts = PostResource::collection(Post::paginate($this->paginateLimit));
 
         return $this->apiResponse($posts, null, 200);
@@ -29,7 +29,7 @@ class PostsController extends Controller
     public function show($id = 1){
         $post = Post::find($id);
         if($post){
-            return $this->apiResponse(new PostResource(Post::find($id)), null, 200);
+            return $this->returnSuccessPost($post);
         }
         return $this->notFoundResponse();
         
@@ -65,7 +65,7 @@ class PostsController extends Controller
             return $this->apiResponse(new PostResource($post), null, 201);
         }
 
-        return $this->apiResponse(null, "Un-known Error", 520);
+        return $this->unknownErrorResponse();
     }
 
 
@@ -90,10 +90,10 @@ class PostsController extends Controller
 
             $post->save();
 
-            return $this->apiResponse($post, null, 201);
+            return $this->returnSuccessPost($post);
         }
 
-        return $this->apiResponse(null, "Un-known Error", 520);
+        return $this->unknownErrorResponse();
 
     }
 
@@ -103,5 +103,9 @@ class PostsController extends Controller
             'title' => 'required|min:5|max:199',
             'body' => 'required|min:15|max:1500'
         ]);
+    }
+
+    public function returnSuccessPost($post){
+        return $this->apiResponse($post);
     }
 }

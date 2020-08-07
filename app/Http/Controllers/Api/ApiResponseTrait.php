@@ -35,6 +35,10 @@ Trait ApiResponseTrait {
         return $this->apiResponse(null, "Not Found", 404);
     }
 
+    public function unknownErrorResponse(){
+        return $this->apiResponse(null, "Un-known Error", 520);
+    }
+
     public function validator($request, $valsArray){
 
         $validation = Validator::make($request, $valsArray);
