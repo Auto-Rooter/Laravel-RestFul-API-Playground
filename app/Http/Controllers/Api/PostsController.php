@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Post;
 use App\Http\Resources\PostResource;
-use Illuminate\Support\Facades\Validator;
 
 
 class PostsController extends Controller
@@ -53,13 +53,10 @@ class PostsController extends Controller
 
         // Validation (2): Laravel Validation
 
-        $validate = Validator::make($request->all(), [
-            'title' => 'required|min:5|max:199',
-            'body' => 'required|min:15|max:1500'
-        ]);
-
-        if($validate->fails()){
-            return $this->apiResponse(null, $validate->errors(), 422);
+        $validate = $this->validation($request);
+        
+        if($validate instanceof Response){
+            return $validate;
         }
 
         $post = Post::create($request->all());
@@ -71,15 +68,13 @@ class PostsController extends Controller
         return $this->apiResponse(null, "Un-known Error", 520);
     }
 
+
     public function update($id, Request $request){
 
-        $validate = Validator::make($request->all(), [
-            'title' => 'required|min:5|max:199',
-            'body' => 'required|min:15|max:1500'
-        ]);
+        $validate = $this->validation($request);
         
-        if($validate->fails()){
-            return $this->apiResponse(null, $validate->errors(), 422);
+        if($validate instanceof Response){
+            return $validate;
         }
 
         // Post::find($id)::update($request->all());
@@ -100,5 +95,13 @@ class PostsController extends Controller
 
         return $this->apiResponse(null, "Un-known Error", 520);
 
+    }
+
+    public function validation($request){
+        
+        return $this->validator($request->all(), [
+            'title' => 'required|min:5|max:199',
+            'body' => 'required|min:15|max:1500'
+        ]);
     }
 }

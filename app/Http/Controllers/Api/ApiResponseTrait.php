@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Validator;
+
 Trait ApiResponseTrait {
 
     /*
@@ -31,5 +33,14 @@ Trait ApiResponseTrait {
 
     public function notFoundResponse(){
         return $this->apiResponse(null, "Not Found", 404);
+    }
+
+    public function validator($request, $valsArray){
+
+        $validation = Validator::make($request, $valsArray);
+
+        if($validation->fails()){
+            return $this->apiResponse(null, $validation->errors(), 404);
+        }
     }
 }
