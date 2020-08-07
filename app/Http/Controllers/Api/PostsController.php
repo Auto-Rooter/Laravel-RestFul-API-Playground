@@ -26,11 +26,20 @@ class PostsController extends Controller
     }
 
     public function show($id = 1){
-        $post = new PostResource(Post::find($id));
+        $post = Post::find($id);
         if($post){
-            return $this->apiResponse($post, null, 201);
+            return $this->apiResponse(new PostResource(Post::find($id)), null, 200);
         }
         return $this->apiResponse($post, "Post Not Found", 404);
         
+    }
+
+
+    public function store(Request $request){
+        $post = Post::create($request->all());
+        if($post){
+            return $this->apiResponse(new PostResource($post), null, 201);
+        }
+        return $this->apiResponse(null, "Un-known Error", 400);
     }
 }
