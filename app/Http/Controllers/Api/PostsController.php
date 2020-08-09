@@ -117,6 +117,6 @@ class PostsController extends Controller
     }
 
     public function returnSuccessPost($post){
-        return $this->apiResponse($post);
+        return $this->apiResponse(new PostResource($post));
     }
 }
