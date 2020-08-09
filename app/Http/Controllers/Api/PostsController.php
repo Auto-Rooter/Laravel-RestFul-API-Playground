@@ -105,7 +105,7 @@ class PostsController extends Controller
             return $this->deleteResponse();
         }
 
-        return $thsi->notFoundResponse();
+        return $this->notFoundResponse();
     }
 
     public function validation($request){
