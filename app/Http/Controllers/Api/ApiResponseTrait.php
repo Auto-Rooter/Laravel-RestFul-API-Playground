@@ -31,8 +31,16 @@ Trait ApiResponseTrait {
         return [200, 201, 202];
     }
 
+    public function createResponse($data){
+        return $this->apiResponse($data, null, 201);
+    }
+
     public function notFoundResponse(){
         return $this->apiResponse(null, "Not Found", 404);
+    }
+
+    public function deleteResponse(){
+        return $this->apiResponse(true, null, 200);
     }
 
     public function unknownErrorResponse(){

@@ -20,6 +20,7 @@ Route::get('posts', 'PostsController@index');
 Route::get('posts/{id}', 'PostsController@show');
 Route::post('posts', 'PostsController@store');
 Route::post('posts/{id}', 'PostsController@update');
+Route::delete('posts/delete/{id}', 'PostsController@delete');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

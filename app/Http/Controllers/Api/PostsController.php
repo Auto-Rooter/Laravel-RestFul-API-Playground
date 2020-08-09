@@ -62,7 +62,7 @@ class PostsController extends Controller
         $post = Post::create($request->all());
 
         if($post){
-            return $this->apiResponse(new PostResource($post), null, 201);
+            return $this->createResponse(new PostResource($post));
         }
 
         return $this->unknownErrorResponse();
@@ -95,6 +95,17 @@ class PostsController extends Controller
 
         return $this->unknownErrorResponse();
 
+    }
+
+    public function delete($id){
+        $post = Post::find($id);
+
+        if($post){
+            $post->delete();
+            return $this->deleteResponse();
+        }
+
+        return $thsi->notFoundResponse();
     }
 
     public function validation($request){
