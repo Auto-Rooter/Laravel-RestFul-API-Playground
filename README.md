@@ -3,5 +3,5 @@ __[https://documenter.getpostman.com](https://documenter.getpostman.com/view/102
 <br>
 <br>
 ## API Endpoints Tested with PostMan:<br>
-![](imgs/aaaaa.JPG)
+![](imgs/aaaa.JPG)
 <br>
